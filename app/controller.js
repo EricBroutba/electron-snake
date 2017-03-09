@@ -1,3 +1,5 @@
-export default class Snake {
-    
+
+
+function init(){
+    var snakeBody = document.getElementsByClassName("snakeBody");
 }
