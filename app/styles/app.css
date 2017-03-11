@@ -1,5 +1,7 @@
-.snake-head{
-    width: 5px;
-    height: 5px;
+#snakeBody{
+    width: 20px;
+    height: 20px;
     background-color: black;
+    position: relative;
 }
+
