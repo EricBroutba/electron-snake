@@ -9,28 +9,54 @@ function Snake (container, posX, posY, mvDir, speed){
     this.direction = mvDir;
     this.speed = speed;
 }
+Snake.prototype.didWeHitSomething = function(){
+    let posX = parseInt(this.container.style.left);
+    let posY = parseInt(this.container.style.top);
+    let didWe;
 
+    didWe = posX <= 0 ? true : (posX >= window.innerWidth ? true : false);
+
+    didWe = posY <= 0 ? true : (posY >= window.innerHeight ? true : false);
+    //return posY >= window.innerHeight ? true : false;
+    //console.log(posX <= 0)
+    //console.log(posX >= window.innerWidth)
+    return didWe;
+};
 Snake.prototype.mvEvent = function(e){
     switch (e.code) {
         case "ArrowUp":
-            this.direction = "up";
+            // we can't go to the opposite way
+            if(this.direction != "down"){
+                this.direction = "up";
+            }
             break;
 
         case "ArrowDown":
-            this.direction = "down";
+            if(this.direction != "up"){
+                this.direction = "down";
+            }
             break;
 
         case "ArrowRight":
-            this.direction = "right";
+            if(this.direction != "left"){
+                this.direction = "right";
+            }
             break;
 
         case "ArrowLeft":
-            this.direction = "left";
+            if(this.direction != "right"){
+                this.direction = "left";
+            }
             break;
     }
 }
 
 Snake.prototype.mvAction = function(){
+    // console.log("X : " + this.container.style.left);
+    // console.log("Y : " + this.container.style.top);
+    console.log(this.didWeHitSomething());
+
+
     switch (this.direction){
         case "up":
             this.container.style.top = parseInt(this.container.style.top) - 20;
@@ -59,5 +85,4 @@ function initSnake(){
     // credits to http://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback
     window.setInterval(snake.mvAction.bind(snake), snake.speed);
     //window.setInterval(inter, snake.speed);
-
 }
