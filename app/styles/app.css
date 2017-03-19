@@ -3,5 +3,5 @@
     height: 20px;
     background-color: black;
     position: relative;
+    z-index:2;
 }
-
