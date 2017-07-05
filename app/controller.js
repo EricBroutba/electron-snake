@@ -65,12 +65,24 @@ Snake.prototype.didWeHitAWall = function(){
 
 Snake.prototype.didWeAte = function(){
 
-    let posX = parseInt(this.container.style.left);
-    let posY = parseInt(this.container.style.top);
+    var grow = x => f => {
+        if(x>0){
+            f()
+            grow(x-1)(f)
+        }
+    }
 
-    if((posX == this.foodPosX) && (posY == this.foodPosY)){
+
+    if((this.posX == this.foodPosX) && (this.posY == this.foodPosY)){
         this.snakeLength += 1;
-
+        console.log("DAAAAM")
+        grow(3)(() => function(){
+            console.log("hi")
+        });
+    }else{
+        console.log("no");
+        console.log(this.posX)
+        console.log("== +" + this.foodPosX)
     }
 
 };
@@ -105,22 +117,31 @@ Snake.prototype.mvEvent = function(e){
 }
 
 Snake.prototype.mvAction = function(){
-
+    let newPos;
     switch (this.direction){
         case "up":
-            this.container.style.top = parseInt(this.container.style.top) - 20;
+            newPos = this.posX - 20;
+            this.container.style.top = newPos;
+            this.posX = newPos;
+            console.log(newPos);
             break;
 
         case "down":
-            this.container.style.top = parseInt(this.container.style.top) + 20;
+            newPos = this.posX + 20;
+            this.container.style.top = newPos;
+            this.posX = newPos;
             break;
 
         case "right":
-            this.container.style.left = parseInt(this.container.style.left) + 20;
+            newPos = this.posY + 20;
+            this.container.style.left = newPos;
+            this.posY = newPos;
             break;
 
         case "left":
-            this.container.style.left = parseInt(this.container.style.left) - 20;
+            newPos = this.posY - 20;
+            this.container.style.left = newPos;
+            this.posY = newPos;
             break;
     }
 
