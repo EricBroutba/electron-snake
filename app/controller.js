@@ -1,17 +1,18 @@
 // var globalShortcut = require('global-shortcut');
-function Snake (container, posX, posY, mvDir, speed){
+function Snake (container, mvDir, speed){
     mvDir = (typeof mvDir !== 'undefined') ?  mvDir : "right";
     speed = (typeof speed !== 'undefined') ?  speed : "500";
     this.container = container;
-    posX = 100;
-    posY = 100;
-    this.container.style.left = posX;
-    this.container.style.top = posY;
+    this.posX = 100;
+    this.posY = 100;
+    this.height = this.container.clientHeight;
+    this.width = this.container.clientWidth;
+    this.container.style.left = this.posX;
+    this.container.style.top = this.posY;
     this.direction = mvDir;
     this.speed = speed;
     this.snakeLength = 1;
     this.generateFood();
-
 }
 
 Snake.prototype.generateFood = function(){
@@ -20,23 +21,28 @@ Snake.prototype.generateFood = function(){
         document.getElementById("apple").remove();
     }
 
-    var foodElement = document.createElement("div");
+    let foodElement = document.createElement("div");
     foodElement.setAttribute("id", "apple");
-    foodElement.style.position = "absolute";
 
+    let foodPosX;
+    do{
+        foodPosX = Math.floor(Math.random(0, window.innerHeight)*10)*20
+    }while(foodPosX % this.height != 0)
 
-    let foodPosX = Math.floor(Math.random(0, window.innerHeight)*10)*20;
-    let foodPosY = Math.floor(Math.random(0, window.innerWidth)*10)*20;
-    foodPosX = 100;
-    foodPosY = 100;
+    let foodPosY;
+    do{
+        foodPosY = Math.floor(Math.random(0, window.innerWidth)*10)*20
+    }while(foodPosY % this.width != 0)
+
     this.foodPosX = foodPosX;
     this.foodPosY = foodPosY;
     foodElement.style.left = foodPosX;
     foodElement.style.top = foodPosY;
-
+    foodElement.style.position = "fixed";
     foodElement.style.width = "20px";
     foodElement.style.height = "20px";
     foodElement.style.backgroundColor = "red";
+    foodElement.style.verticalAlign = "top";
 
     document.body.appendChild(foodElement);
 
@@ -48,17 +54,15 @@ Snake.prototype.didWeHitAWall = function(){
 
     //TODO precisions with window.innerWidth and windown.innerHeight
 
-    weDid = posX <= 0 ? true : (posX >= window.innerWidth ? true : false);
-    if(weDid){
-        return true;
-    }
-    weDid = posY <= 0 ? true : (posY >= window.innerHeight ? true : false);
-    if(weDid){
-        return true;
-    }
+    weDid = posX < 0 ? true : (posX >= window.innerWidth ? true : false);
+    if(weDid){ return true; }
+
+    weDid = posY < 0 ? true : (posY >= window.innerHeight ? true : false);
+    if(weDid){ return true; }
 
     return false;
 };
+
 Snake.prototype.didWeAte = function(){
 
     let posX = parseInt(this.container.style.left);
@@ -66,17 +70,11 @@ Snake.prototype.didWeAte = function(){
 
     if((posX == this.foodPosX) && (posY == this.foodPosY)){
         this.snakeLength += 1;
-        console.log("WE JUST ATE")
-
-        console.log("YYY")
-        console.log(posY);
-        console.log(this.foodPosY);
-        console.log("XXX")
-        console.log(posX)
-        console.log(this.foodPosY)
 
     }
+
 };
+
 Snake.prototype.mvEvent = function(e){
     switch (e.code) {
         case "ArrowUp":
@@ -108,12 +106,6 @@ Snake.prototype.mvEvent = function(e){
 
 Snake.prototype.mvAction = function(){
 
-    if (this.didWeHitAWall()){
-        console.log("GAME OVER");
-    }
-    this.didWeAte();
-
-
     switch (this.direction){
         case "up":
             this.container.style.top = parseInt(this.container.style.top) - 20;
@@ -131,12 +123,17 @@ Snake.prototype.mvAction = function(){
             this.container.style.left = parseInt(this.container.style.left) - 20;
             break;
     }
+
+    if (this.didWeHitAWall()){
+        console.log("GAME OVER");
+    }
+    this.didWeAte();
 }
 
 function initSnake(){
 
     var snakeBody = document.getElementById("snakeBody");
-    var snake = new Snake(snakeBody, 100, 100, null, "300");
+    var snake = new Snake(snakeBody, null, "300");
 
 
     document.onkeydown = snake.mvEvent.bind(snake);
