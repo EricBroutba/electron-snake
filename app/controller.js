@@ -68,23 +68,22 @@ Snake.prototype.didWeAte = function(){
     var grow = x => f => {
         if(x>0){
             f()
+            console.log("dayum");
             grow(x-1)(f)
         }
     }
 
-
     if((this.posX == this.foodPosX) && (this.posY == this.foodPosY)){
         this.snakeLength += 1;
         console.log("DAAAAM")
-        grow(3)(() => function(){
-            console.log("hi")
-        });
+        grow(3);
     }else{
-        console.log("no");
-        console.log(this.posX)
-        console.log("== +" + this.foodPosX)
+        console.log("snake");
+        console.log(this.posX);
+        console.log("food")
+        console.log(this.foodPosX);
+        console.log("=====")
     }
-
 };
 
 Snake.prototype.mvEvent = function(e){
@@ -123,7 +122,6 @@ Snake.prototype.mvAction = function(){
             newPos = this.posX - 20;
             this.container.style.top = newPos;
             this.posX = newPos;
-            console.log(newPos);
             break;
 
         case "down":
