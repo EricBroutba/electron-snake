@@ -36,8 +36,8 @@ Snake.prototype.generateFood = function(){
 
     this.foodPosX = foodPosX;
     this.foodPosY = foodPosY;
-    foodElement.style.left = foodPosX;
-    foodElement.style.top = foodPosY;
+    foodElement.style.top = foodPosX;
+    foodElement.style.left = foodPosY;
     foodElement.style.position = "fixed";
     foodElement.style.width = "20px";
     foodElement.style.height = "20px";
@@ -52,8 +52,6 @@ Snake.prototype.didWeHitAWall = function(){
     let posY = parseInt(this.container.style.top);
     let weDid;
 
-    //TODO precisions with window.innerWidth and windown.innerHeight
-
     weDid = posX < 0 ? true : (posX >= window.innerWidth ? true : false);
     if(weDid){ return true; }
 
@@ -63,26 +61,23 @@ Snake.prototype.didWeHitAWall = function(){
     return false;
 };
 
-Snake.prototype.didWeAte = function(){
+Snake.prototype.grow = function(){
+    let queue = Document.createElement("div");
 
-    var grow = x => f => {
+    this.snakeLength += 1;
+}
+
+Snake.prototype.didWeAte = function(){
+    var _grow = x => f => {
         if(x>0){
             f()
-            console.log("dayum");
             grow(x-1)(f)
         }
     }
 
     if((this.posX == this.foodPosX) && (this.posY == this.foodPosY)){
         this.snakeLength += 1;
-        console.log("DAAAAM")
-        grow(3);
-    }else{
-        console.log("snake");
-        console.log(this.posX);
-        console.log("food")
-        console.log(this.foodPosX);
-        console.log("=====")
+        this.grow();
     }
 };
 
