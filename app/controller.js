@@ -45,8 +45,8 @@ Snake.prototype.generateFood = function(){
     foodElement.style.verticalAlign = "top";
 
     document.body.appendChild(foodElement);
-
 }
+
 Snake.prototype.didWeHitAWall = function(){
     let posX = parseInt(this.container.style.left);
     let posY = parseInt(this.container.style.top);
@@ -63,17 +63,18 @@ Snake.prototype.didWeHitAWall = function(){
 
 Snake.prototype.grow = function(){
     let queue = Document.createElement("div");
-
     this.snakeLength += 1;
 }
 
 Snake.prototype.didWeAte = function(){
+    /*
     var _grow = x => f => {
         if(x>0){
             f()
             grow(x-1)(f)
         }
     }
+    */
 
     if((this.posX == this.foodPosX) && (this.posY == this.foodPosY)){
         this.snakeLength += 1;
@@ -148,7 +149,6 @@ function initSnake(){
 
     var snakeBody = document.getElementById("snakeBody");
     var snake = new Snake(snakeBody, null, "300");
-
 
     document.onkeydown = snake.mvEvent.bind(snake);
     // credits to http://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback

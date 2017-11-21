@@ -1,9 +1,10 @@
 const {app, BrowserWindow} = require('electron');
 const url = require('url');
 const path = require("path");
-
+const rq = require('electron-require');
 let win
-
+// require comm stuf...
+rq('./com-srv.js')
 function createWindow(){
     win = new BrowserWindow({width: 800, height: 600, resizable: false,});
     // and load the index.html of the app.
@@ -39,4 +40,5 @@ app.on('activate', () => {
     if (win === null) {
         createWindow();
     }
+
 })
