@@ -4,7 +4,7 @@ const path = require("path");
 const rq = require('electron-require');
 let win
 // require comm stuf...
-rq('./com-srv.js');
+rq('./ComSrv.js');
 rq('./runner.js');
 function createWindow(){
     win = new BrowserWindow({width: 800, height: 600, resizable: false,});
