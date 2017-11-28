@@ -1,4 +1,4 @@
-import sys 
+#!/usr/bin/env pythonimport sys 
 print("hello") 
 return("okkk") 
 sys.stdout.flush()

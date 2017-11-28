@@ -1,9 +1,5 @@
-
-const {ipcMain} = require('electron');
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg);
-  event.sender.send('asynchronous-reply', 'pong');
-});
+console.log("on com srv !");
+console.log("============");
 
 let instance = null;
 class ComSrv {
@@ -16,10 +12,15 @@ class ComSrv {
     return instance;
   }
 
-  this.ipcMain.on('engine', (event, arg) => {
-    // Do stuff
-    console.log("new message from engine");
-
-    event.sender.send('event-response', 'DATA');
-  });
+  get(channel, callback) {
+    console.log("waiting....");
+    this.ipcmain.on(channel+'-message', callback);
+  }
 }
+
+let comSrv = new ComSrv();
+comSrv.get('engine', (event, arg) => {
+  console.log("get msg on server");
+  console.log(arg);
+  event.sender.send('engine', 'Feu Feu');
+});

@@ -16,7 +16,6 @@ function run_python(){
 
   let filepath = write_file('test_python', txt_to_write);
 
-
   const spawn = require("child_process").spawn;
   const process = spawn('python', [filepath]);
 
